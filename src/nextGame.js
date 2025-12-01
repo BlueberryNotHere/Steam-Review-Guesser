@@ -291,12 +291,12 @@ const sleep = ms => new Promise(res => setTimeout(res, ms))
     );
     if (hubBtn) hubBtn.remove();
 
-    const filterBtn = makeFiltersButton();    
+    //const filterBtn = makeFiltersButton();    
     const pureBtn = makeNextGameButton("Next (Raw)", "pure");
     const smartBtn = makeNextGameButton("Next (Balanced)", "smart");
 
     // Let Steam's layout handle positioning; just drop them in order
-    container.appendChild(filterBtn);
+    //container.appendChild(filterBtn);
     container.appendChild(pureBtn);
     container.appendChild(smartBtn);
   }
