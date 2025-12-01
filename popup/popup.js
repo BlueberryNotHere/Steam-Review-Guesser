@@ -18,3 +18,23 @@ saveButton.onClick = () => {
   }
   chrome.runtime.sendMessage({event: 'saveData', prefs})
 }
+
+chrome.storage.local.get(["includeTags", "includeAll", "excludeTags", "startDate", "endDate"], (result) => {
+  const {includeTags, includeAll, excludeTags, startDate, endDate} = result;
+
+  if (includeTags) {
+    includeTagsElement.value = includeTags;
+  }
+  if (includeAll) {
+    includeAllElement.value = includeAll;
+  }
+  if (excludeTags) {
+    excludeTagsElement.value = excludeTags;
+  }
+  if (startDate) {
+    startDateElement.value = startDate;
+  }
+  if (endDate) {
+    endDateElement.value = endDate;
+  }
+})
