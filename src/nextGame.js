@@ -212,30 +212,6 @@ const sleep = ms => new Promise(res => setTimeout(res, ms))
     return a;
   }
 
-  /**
-   * Create the "Filter tags" button.
-   * @returns {HTMLAnchorElement}
-   */
-  function makeFiltersButton() {
-    const a = document.createElement("a");
-    a.className = "btnv6_blue_hoverfade btn_medium ext-next-game";
-    a.href = "#";
-
-    const span = document.createElement("span");
-    span.textContent = "Filters";
-    a.appendChild(span);
-
-    a.addEventListener(
-      "click",
-      (e) => {
-        e.preventDefault();
-      },
-      { passive: false }
-    );
-
-    return a;
-  }
-
   // ---------------------------------------------------------------------------
   // Oops / region-locked page: header button(s)
   // ---------------------------------------------------------------------------
