@@ -177,7 +177,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms))
     }
 
     //Find tags
-    tags = findtags(appid);
+    //tags = findTags(appid);
 
     window.location.assign(
       `https://store.steampowered.com/app/${appid}/`
