@@ -1,4 +1,5 @@
 chrome.runtime.onMessage.addListener(data => {
+  console.log(data)
   const {event, prefs} = data
   switch (event) {
     case 'saveData':
