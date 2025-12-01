@@ -11,12 +11,12 @@
       <h1 class="title">Steam Review Guesser</h1>
 
       <div class="field">
-        <label class="label">tags to include (leave blank to iclude all tags)</label>
+        <label class="label">tags to include (leave blank to include all tags)</label>
         <div class="control">
           <input class="input is-fullwidth" type="text" id="includeTags" placeholder="input tags, separated by commas">
         </div>
         <div class="control">
-          <input type="checkbox">
+          <input type="checkbox" id="includeAll">
           must include all tags in list
         </div>
       </div>
@@ -44,7 +44,7 @@
       
     </div>
 
-    <div class="container m-3" style="white-space: nowrap" id="save">
+    <div class="container m-3" style="white-space: nowrap" id="saveButton">
       <button class="button is-success">Save filters</button>
     </div>
   </body>
