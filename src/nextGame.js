@@ -1,4 +1,4 @@
-export const sleep = ms => new Promise(res => setTimeout(res, ms))
+const sleep = ms => new Promise(res => setTimeout(res, ms))
   
 (function (root) {
   const ns = (root.ReviewGuesser = root.ReviewGuesser || {});
