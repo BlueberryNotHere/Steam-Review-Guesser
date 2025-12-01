@@ -12,5 +12,6 @@ const includeAllButton = document.getElementById("includeAll")
 
 saveButton.onClick = function()
 {
+  chrome.runtime.sendMessage({event: 'saveData'})
   console.log("Save Button")
 }
