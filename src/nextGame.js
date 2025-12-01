@@ -115,12 +115,12 @@
   }
 
   /**
-   * Find the steam tags for the game
+   * Find the steam tags and release date for the game
    *
    * @param appid
-   * @returns {Promise<string[]>} - Promise resolving to an array of tag names
+   * @returns {Promise<string[]>} - Promise resolving to an array of tag names, with release date as first element
    */
-  async function findTags(appid) {
+  async function findTagsAndDate(appid) {
     try {
         // Fetch the HTML content of the page
         const response = await fetch(url, {
@@ -144,17 +144,108 @@
         // Steam tags are inside <a class="app_tag"> elements
         const tagElements = doc.querySelectorAll('.app_tag');
 
+        const dateElTemp = document.querySelector('.release_date .date');
+        let release = ""
+        if (dateElTemp) {
+          release = el.textContent.trim();
+        } else {
+          release = "";
+        }
+
         // Extract and clean tag text
         const tags = Array.from(tagElements)
             .map(el => el.textContent.trim())
             .filter(tag => tag.length > 0);
 
-        return tags;
+        //Add date to array
+        let tagsAndDate = [release].concat(tags)
+        return tagsAndDate;
     } catch (error) {
         console.error('Error fetching Steam tags:', error);
         return [];
     }
 }
+
+  /**
+   * Check the tags to ensure they fit the filters
+   *
+   * @param tags
+   * @param dateStr
+   * @returns {boolean}
+   */
+  function checkFilters(tags, dateStr)
+  {
+      chrome.storage.local.get(["includeTags", "includeAll", "excludeTags", "startDate", "endDate"], (result) => {
+      const {includeTags, includeAll, excludeTags, startDate, endDate} = result;
+      const tagsToInclude = includeTags.split(",");
+      const tagsToExclude = excludeTags.split(",");
+      let successTagsInclude = false;
+      let successTagsIncludeAll = true;
+      let successTagsExclude = false;
+      let fitsFilters = true;
+
+      //Check tag filters
+      if ((!includeTags || includeTags == "") && (!excludeTags || excludeTags == ""))
+      {
+        return true;
+      }
+      
+      for (const gameTag of tags)
+      {
+        for (const tag of tagsToInclude)
+        {
+          checkTag = tag.trimStart();
+          if (gameTag.toLowerCase() == tag.toLowerCase())
+          {
+            successTagsInclude = true;
+          }
+          else
+          {
+            successTagsIncludeAll = false;
+          }
+        }
+
+        for (const tag of tagsToExclude)
+        {
+          checkTag = tag.trimStart();
+          if (gameTag.toLowerCase() == tag.toLowerCase())
+          {
+            successTagsExclude = false;
+          }
+        }
+      }
+
+      //Return if game doesn't fit tag requirements
+      if (!successTagsInclude || !successTagsExclude || (includeAll && !successTagsIncludeAll))
+      {
+        return false;
+      }
+
+      //check if the release date is within the filters
+      let dateSuccess = false;
+      const date = new Date(dateStr);
+      if (!startDate) {startDate = "";}
+      if (!endDate) {endDate = "";}
+      const dateToStart = new Date(startDate);
+      const dateToEnd = new Date(endDate);
+      if (isNaN(dateToStart.getTime()) {dateToStart = new Date(1950-1-1);}
+      if (isNaN(dateToEnd.getTime()) {dateToEnd = new Date(2099-1-1);}
+      if (date >= dateToStart && date <= dateToEnd)
+      {
+        dateSuccess = true;
+      }
+
+      return dateSuccess;
+  }              
+
+  /**
+   * Function to wait a certain amount of miliseconds.
+   *
+   * @param {Number} ms
+   */
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   
   /**
    * Resolve a random app id based on mode ("pure" | "smart"),
@@ -176,12 +267,24 @@
       appid = 570;
     }
 
-    //Find tags
-    tags = findTags(appid);
+    //Find tags and release date
+    let tags = findTagsAndDate(appid).value;
+    let releaseDate = tags.shift()
 
-    window.location.assign(
-      `https://store.steampowered.com/app/${appid}/`
-    );
+    //Make sure game fits filters
+    let fitsFilters = checkFilters(tags, releaseDate);
+
+    if (fitsFilters == true)
+    {
+      window.location.assign(
+        `https://store.steampowered.com/app/${appid}/`
+      );
+    }
+    else
+    {
+      sleep(10)
+      navigateToRandomApp(mode);
+    }
   }
 
   /**
