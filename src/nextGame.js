@@ -1,3 +1,5 @@
+export const sleep = ms => new Promise(res => setTimeout(res, ms))
+  
 (function (root) {
   const ns = (root.ReviewGuesser = root.ReviewGuesser || {});
 
@@ -113,6 +115,48 @@
   }
 
   /**
+   * Find the steam tags for the game
+   *
+   * @param appid
+   * @returns {Promise<string[]>} - Promise resolving to an array of tag names
+   */
+  async function findTags(appid) {
+    try {
+        // Fetch the HTML content of the page
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'text/html',
+                'User-Agent': navigator.userAgent // mimic browser request
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const htmlText = await response.text();
+
+        // Parse HTML into a DOM
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html');
+
+        // Steam tags are inside <a class="app_tag"> elements
+        const tagElements = doc.querySelectorAll('.app_tag');
+
+        // Extract and clean tag text
+        const tags = Array.from(tagElements)
+            .map(el => el.textContent.trim())
+            .filter(tag => tag.length > 0);
+
+        return tags;
+    } catch (error) {
+        console.error('Error fetching Steam tags:', error);
+        return [];
+    }
+}
+  
+  /**
    * Resolve a random app id based on mode ("pure" | "smart"),
    * and navigate to that app on the Steam store.
    *
@@ -131,6 +175,9 @@
       // Fallback: Dota 2, in case everything fails
       appid = 570;
     }
+
+    //Find tags
+    tags = findtags(appid);
 
     window.location.assign(
       `https://store.steampowered.com/app/${appid}/`
