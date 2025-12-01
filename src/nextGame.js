@@ -253,7 +253,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms))
       header.querySelector("h2.pageheader") || header;
 
     // Wrap buttons in a simple row
-    const filterBtn = makeFilterButton();
+    const filterBtn = makeFiltersButton();
     const pureBtn = makeNextGameButton("Next (Raw)", "pure");
     const smartBtn = makeNextGameButton("Next (Balanced)", "smart");
 
@@ -291,7 +291,7 @@ const sleep = ms => new Promise(res => setTimeout(res, ms))
     );
     if (hubBtn) hubBtn.remove();
 
-    const filterBtn = makeFilterButton();    
+    const filterBtn = makeFiltersButton();    
     const pureBtn = makeNextGameButton("Next (Raw)", "pure");
     const smartBtn = makeNextGameButton("Next (Balanced)", "smart");
 
