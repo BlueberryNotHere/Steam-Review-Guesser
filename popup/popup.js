@@ -10,8 +10,7 @@ const saveButton = document.getElementById("saveButton")
 //CHECKBOXES
 const includeAllButton = document.getElementById("includeAll")
 
-saveButton.onClick = function()
-{
+saveButton.onClick = () => {
   chrome.runtime.sendMessage({event: 'saveData'})
   console.log("Save Button")
 }
