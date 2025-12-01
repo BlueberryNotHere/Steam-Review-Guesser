@@ -212,6 +212,30 @@ export const sleep = ms => new Promise(res => setTimeout(res, ms))
     return a;
   }
 
+  /**
+   * Create the "Filter tags" button.
+   * @returns {HTMLAnchorElement}
+   */
+  function makeFiltersButton() {
+    const a = document.createElement("a");
+    a.className = "btnv6_blue_hoverfade btn_medium ext-next-game";
+    a.href = "#";
+
+    const span = document.createElement("span");
+    span.textContent = "Filters";
+    a.appendChild(span);
+
+    a.addEventListener(
+      "click",
+      (e) => {
+        e.preventDefault();
+      },
+      { passive: false }
+    );
+
+    return a;
+  }
+
   // ---------------------------------------------------------------------------
   // Oops / region-locked page: header button(s)
   // ---------------------------------------------------------------------------
@@ -228,7 +252,8 @@ export const sleep = ms => new Promise(res => setTimeout(res, ms))
     const target =
       header.querySelector("h2.pageheader") || header;
 
-    // Wrap both buttons in a simple row
+    // Wrap buttons in a simple row
+    const filterBtn = makeFilterButton();
     const pureBtn = makeNextGameButton("Next (Raw)", "pure");
     const smartBtn = makeNextGameButton("Next (Balanced)", "smart");
 
@@ -236,6 +261,7 @@ export const sleep = ms => new Promise(res => setTimeout(res, ms))
     row.style.marginTop = "10px";
     row.style.display = "flex";
     row.style.gap = "8px";
+    row.appendChild(filterBtn);
     row.appendChild(pureBtn);
     row.appendChild(smartBtn);
 
@@ -265,10 +291,12 @@ export const sleep = ms => new Promise(res => setTimeout(res, ms))
     );
     if (hubBtn) hubBtn.remove();
 
+    const filterBtn = makeFilterButton();    
     const pureBtn = makeNextGameButton("Next (Raw)", "pure");
     const smartBtn = makeNextGameButton("Next (Balanced)", "smart");
 
     // Let Steam's layout handle positioning; just drop them in order
+    container.appendChild(filterBtn);
     container.appendChild(pureBtn);
     container.appendChild(smartBtn);
   }
