@@ -177,7 +177,7 @@
     }
 
     //Find tags
-    //tags = findTags(appid);
+    tags = findTags(appid);
 
     window.location.assign(
       `https://store.steampowered.com/app/${appid}/`
