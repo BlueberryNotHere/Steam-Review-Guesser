@@ -13,34 +13,38 @@
       <div class="field">
         <label class="label">tags to include (leave blank to iclude all tags)</label>
         <div class="control">
-          <input class="input is-fullwidth" type="text" placeholder="input tags, separated by commas">
+          <input class="input is-fullwidth" type="text" id="includeTags" placeholder="input tags, separated by commas">
+        </div>
+        <div class="control">
+          <input type="checkbox"
+          must include all tags in list
         </div>
       </div>
 
       <div class="field">
         <label class="label">tags to exclude</label>
         <div class="control">
-          <input class="input is-fullwidth" type="text" placeholder="input tags, separated by commas">
+          <input class="input is-fullwidth" type="text" id="excludeTags" placeholder="input tags, separated by commas">
         </div>
       </div>
 
        <div class="field">
         <label class="label">start date</label>
         <div class="control">
-          <input class="input is-fullwidth" type="date">
+          <input class="input is-fullwidth" type="date" id="startDate">
         </div>
       </div>
 
       <div class="field">
         <label class="label">end date</label>
         <div class="control">
-          <input class="input is-fullwidth" type="date">
+          <input class="input is-fullwidth" type="date" id="endDate">
         </div>
       </div>
       
     </div>
 
-    <div class="container m-3" style="white-space: nowrap">
+    <div class="container m-3" style="white-space: nowrap" id="save">
       <button class="button is-success">Save filters</button>
     </div>
   </body>
