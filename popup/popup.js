@@ -16,6 +16,7 @@ saveButton.onClick = () => {
     startDate: startDateElement.value,
     endDate: endDateElement.value
   }
+  console.log("save button")
   chrome.runtime.sendMessage({event: 'saveData', prefs})
 }
 
