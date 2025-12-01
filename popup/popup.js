@@ -8,7 +8,7 @@ const endDateElement = document.getElementById("endDate")
 //BUTTONS
 const saveButton = document.getElementById("saveButton")
 
-saveButton.onClick = () => {
+saveButton.onclick = () => {
   const prefs = {
     includeTags: includeTagsElement.value,
     includeAll: includeAllElement.value,
